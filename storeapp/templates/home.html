@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyHomes</title>
+  <link rel="stylesheet" href="{% static 'css/featured.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+  <div class="container">
+    <h1 class="logo">MyHomes</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="{% url 'home' %}" class="active">Home</a></li>
+        <li><a href="">Blogs</a></li>
+        <li><a href="">Inquiry</a></li>
+        <li><a href="{% url 'login' %}">Sign In</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== FEATURED HOUSES ===== -->
+  <section class="featured" aria-labelledby="featured-title">
+    <header class="featured__head">
+      <div>
+        <h2 id="featured-title" class="featured__title">Featured Houses</h2>
+        <p class="featured__subtitle">explore >>>>>>></p>
+      </div>
+    </header>
+
+    <div class="slider" role="list">
+      {% for house in featured %}
+      <article class="card" id="item-{{ forloop.counter }}" role="listitem">
+        <div class="card__media">
+          <img src="{{ house.image.url }}" alt="{{ house.title }}">
+          <span class="price-badge">{{ house.price }} ksh</span>
+        </div>
+        <div class="card__body">
+          <h3 class="card__title">{{ house.title }}</h3>
+          <p class="card__desc">{{ house.description|truncatewords:15 }}</p>
+          <div class="meta">
+            <div class="location">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+              </svg>
+              <span>{{ house.location }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <div class="dots">
+      {% for house in featured_houses %}
+        <a href="#item-{{ forloop.counter }}" aria-label="Go to slide {{ forloop.counter }}"></a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ===== AVAILABLE HOUSES ===== -->
+  <section class="available">
+    <h2 class="section-title">Available Houses</h2>
+    <div class="grid">
+        {% if available_houses %}
+              {% for house in featured %}
+    
+                    <article class="avail-card">
+                    <div class="avail__media">
+                    <img src="{{ house.image.url }}" alt="{{ house.title }}">
+                   </div>
+                 <div class="avail__body">
+                    <h3 class="avail__title">{{ house.title }}</h3>
+                      <p class="avail__price">{{ house.price }} <span class="price-badge" black;">ksh</span></p>
+                   <p class="avail__location">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/>
+                      </svg>
+                        {{ house.location }}
+                    </p>
+                      <p class="avail__agent">Agent: {{ house.agent_name }}</p>
+                      <p class="avail__phone">phone {{ house.agent_phone }}</p>
+                       </div>
+                         </article>
+               {% endfor %}
+            {% else %}
+                <p>No available houses at the moment. Please check back later.</p>
+        {% endif %}
+
+  </section>
+
+</main>
+
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const slider = document.querySelector(".slider");
+    let scrollAmount = 0;
+
+    function autoSlide() {
+      if (slider.scrollWidth - slider.clientWidth <= scrollAmount) {
+        scrollAmount = 0; // reset to start
+      } else {
+        scrollAmount += slider.clientWidth; // move one viewport of cards
+      }
+      slider.scrollTo({ left: scrollAmount, behavior: "smooth" });
+    }
+
+    setInterval(autoSlide, 4000); // slide every 4 seconds
+  });
+</script>
+
+</html>

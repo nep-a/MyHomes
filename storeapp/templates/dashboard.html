@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent/Landlord</title>
+    {%load static%}
+</head>
+<style>
+    header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: linear-gradient(to right, #415b75, #225588);
+        border-bottom: 2px solid #ccc;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+  .summary-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    transition: all 0.5s ease;
+  }
+
+  .card {
+    flex: 1;
+    min-width: 200px;
+    background: #fff;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+
+  .card.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+  }
+
+
+</style>
+<body>
+    <header>
+        {% if user.is_authenticated %}
+        <h1 style="font-size: 18px;">Welcome, <span style="color: lawngreen; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-style: italic;">{{ user.username }}</span>!</h1>
+        <a href="{% url 'register' %}" style="text-decoration: none; color: black;">Logout</a>
+    {% else %}
+        <h1>Please log in to access your dashboard.</h1>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    </header>
+    <div id="summary-cards" class="summary-wrapper">
+  <div class="card">My Listings<br><span>{{ listing }}</span></div>
+  <div class="card">Bookings<br><span>{{ bookings }}</span></div>
+  <div class="card">Contacts<br><span>{{ contacts }}</span></div>
+  <div class="card">Tenants<br><span>{{ tenants }}</span></div>
+</div>
+
+        {% if available_houses %}
+            
+                 
+                
+            {% else %}
+                <p>You have no listing at the moment.</p>
+        {% endif %}
+
+
+
+
+
+
+</body>
+<script>
+    window.addEventListener('scroll', () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if (rect.top < 0) {
+        card.classList.add('fade-out');
+      } else {
+        card.classList.remove('fade-out');
+      }
+    });
+  });
+</script>
+
+</html>
