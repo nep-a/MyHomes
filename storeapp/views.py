@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from storeapp.models import Contacts,Featured_houses
+from storeapp.models import Contacts,Featured_houses,blog
 from django.contrib import messages
 # Create your views here.
 
@@ -83,3 +83,6 @@ def dashboard(request):
     
     return render(request, 'dashboard.html', context)
   
+def blog_view(request):
+    blogs = blog.objects.all() # Fetch all blog posts, ordered by creation date
+    return render(request, 'blog.html', {'blogs': blogs})

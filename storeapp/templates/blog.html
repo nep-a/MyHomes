@@ -1,0 +1,27 @@
+{%extends 'starter.html'%}
+{%load static %}
+
+{%block body%}
+  {%if blogs%}
+      {%for blog in blogs %}
+   <div class="listing-card" style="border-left: 1px solid white;">
+  <h2 class="title">Tittle: {{blog.title}}</h2>
+  <p class="content">
+    {{blog.content}}
+  </p>
+  <div class="meta">
+    <span class="author">Author: {{blog.author}}</span>
+  </div>
+</div>
+{%endfor%}
+
+{%else%}
+<p>There are no blogs at the moment!</p>
+{%endif%}
+
+
+{%endblock%}
+
+
+
+

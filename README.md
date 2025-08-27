@@ -130,3 +130,12 @@ For inquiries or support, reach out via the website Contact Form or email:
 
 
 
+Here's a simple and clean HTML/CSS div structure you can use to display a listing with Title, Content, Author, and Created At:
+
+html
+
+
+css
+
+
+Let me know if you want it in Django template format with dynamic data.
